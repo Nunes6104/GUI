@@ -52,6 +52,7 @@ def clicar(i, j):
             fim = (i, j) # define ponto final
             labels[i][j].config(bg="orange")
             estado = "feito"
+            comecar_jogo()
         cont = 0
         return
     if modo == "jogar" and jogando:
@@ -63,7 +64,7 @@ def clicar(i, j):
             labels[i][j].config(bg="blue") # nova posição
             if pos_jogador == fim:
                 labels[i][j].config(bg="purple") # chegou ao fim
-                escrever_mensagem(f"Chegou ao fim!!\nUsou {cont + 1} cliques para chegar ao destino")
+                escrever_mensagem(f"\nChegou ao fim!!Usou {cont + 1} cliques para chegar ao destino")
                 cont = 0
                 
 #criar alterar entre obstaculo livre
@@ -124,8 +125,15 @@ def clearAll():
 
 def ativar_edicao():
     global modo
+    if modo == "jogar":
+        for i in range(10):
+            for j in range(10):
+                if mapa[i][j] == ".":
+                    labels[i][j].config(bg="green")
+                elif mapa[i][j] == "#":
+                    labels[i][j].config(bg="red")
     modo = "editar"
-    escrever_mensagem("\nModo de edição ativado.")
+    escrever_mensagem("\n\nModo de edição ativado.")
     
 def ativar_definicao():
     global modo, estado
@@ -133,11 +141,11 @@ def ativar_definicao():
     estado = "inicio"
     escrever_mensagem("\nModo de definição ativado. Clique em início e depois em fim.")
     
-tk.Button(janela, text="Definir Inicio/Fim", command=ativar_definicao).pack()
-tk.Button(janela, text="Começar Jogo", command=comecar_jogo).pack()
-tk.Button(janela, text="Editar Mapa", command=ativar_edicao).pack()
-tk.Button(janela, text="Reiniciar Jogo", command=reiniciar).pack()
-tk.Button(janela, text="Clear All", command=clearAll).pack()
+tk.Button(janela, text="Definir Inicio/Fim", command=ativar_definicao).place(x=25, y=300)
+tk.Button(janela, text="Começar Jogo", command=comecar_jogo).place(x=165, y=300)
+tk.Button(janela, text="Editar Mapa", command=ativar_edicao).place(x=300, y=300)
+tk.Button(janela, text="Reiniciar Jogo", command=reiniciar).place(x=25, y=350)
+tk.Button(janela, text="Clear All", command=clearAll).place(x=175, y=350)
 
 
 mapa = ler_mapa("mapa.txt") # lê o ficheiro
